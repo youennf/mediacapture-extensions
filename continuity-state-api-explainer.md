@@ -74,10 +74,11 @@ window.onload = async () => {
           initializeFromState();
           return;
      }
-     // Else, request access to the room.
+     // Otherwise, ask user for the manual setup.
      await waitForUserToInputUserName();
      showEnterRoomButton();
      enterRoomButton.onclick = async () => {
+         // Let's request access to the room.
          const allowed = await requestRightToEnterRoom();
          // If allowed, let's actually enter the room.
          if (allowed)
