@@ -28,6 +28,9 @@ It also allows the new web page to identify that it was opened as part of a hand
   This makes it hard for the web application to know whether migration between the two pages should happen.
 * State can be shared between one page to the other by updating the web page URL, in particular its fragment identifier.
   The downsides is that this might leak private information if the user decides to share the link via text messaging, email...
+  Also, the web page URL is not as trusted as the continuity state information which is solely managed by the UA.
+* A HTTP header could be used to convey the continuity state information to the server instead of the page.
+  The benefits over a readonly attribute are small and this would limit the continuity state to be a valid HTTP header value.
 
 
 ## Using the continuityState API
