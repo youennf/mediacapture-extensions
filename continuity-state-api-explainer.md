@@ -76,9 +76,12 @@ window.onload = async () => {
      }
      // Else, request access to the room.
      await waitForUserToInputUserName();
-     const allowed = await requestRightToEnterRoom();
-     if (allowed)
-         showJoinButton();
+     showEnterRoomButton();
+     enterRoomButton.onclick = async () => {
+         const allowed = await requestRightToEnterRoom();
+         if (allowed)
+             enterRoom();
+     };
 }
 
 async function initializeFromState()
@@ -92,7 +95,8 @@ async function initializeFromState()
              // update state.
          }
      }
-     showJoinButton();
+     showEnterRoomButton();
+     enterRoomButton.onclick = enterRoom;
 }
 ```
 
