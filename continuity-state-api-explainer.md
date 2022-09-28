@@ -79,6 +79,7 @@ window.onload = async () => {
      showEnterRoomButton();
      enterRoomButton.onclick = async () => {
          const allowed = await requestRightToEnterRoom();
+         // If allowed, let's actually enter the room.
          if (allowed)
              enterRoom();
      };
@@ -96,7 +97,12 @@ async function initializeFromState()
          }
      }
      showEnterRoomButton();
-     enterRoomButton.onclick = enterRoom;
+     enterRoomButton.onclick = () => {
+         // Let's directly enter the room since we were already allowed in the previous page.
+         enterRoom();
+         // Let's notify the previous page
+         notifyPreviousPageOfMigration();
+     }
 }
 ```
 
