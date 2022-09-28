@@ -67,15 +67,21 @@ onmicrophonEnabled = (enabled) => {
 
 ```js
 let state = { };
-window.onload = () => {
+window.onload = async () => {
      // New page is reading the continuity state.
      if (navigator.initialContinuityState) {
           state = JSON.parse(navigator.initialContinuityState);
           initializeFromState();
+          return;
      }
+     // Else, request access to the room.
+     await waitForUserToInputUserName();
+     const allowed = await requestRightToEnterRoom();
+     if (allowed)
+         showJoinButton();
 }
 
-function initializeFromState()
+async function initializeFromState()
 {
      // Let's initialize web page according latest user preferences from the old page.
      updateUsername(state.username);
@@ -85,7 +91,8 @@ function initializeFromState()
          } catch (e) {
              // update state.
          }
-     }   
+     }
+     showJoinButton();
 }
 ```
 
