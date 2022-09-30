@@ -2,20 +2,21 @@
 
 ## Introduction
 
-Browsers provide ways for a user to easily load a web page already opened in one device in another device of the same user.
-For some of these flows, the user expects to fully transition its interactions from the old page to the new page.
-We call these flows handof flows.
+Browsers provide ways for a user to easily load a web page already opened in one device in another of their device of the same user.
+For some of these flows, the user expects to fully transition the page's interactions from the old page to the new page.
+We call these "handoff flows".
 
-As an example, when migrating a video call from one device to another, the user may want the old web page to stop capturing
+As an example, when migrating a video call from one device to another, the user may want the old web page to stop capturing video
 as soon as the new web page is operational.
 
-This proposal allows the old web page to provide some state to the new web page.
-It also allows the new web page to identify that it was opened as part of a handoff flow.
+This proposal allows the old web page to provide some state to the new web page as part of the handoff flow.
+It also allows the new web page to identify that it was opened as a handoff flow.
 
 ## Goals 
 
-* Allow a web application to understand that it is being opened as a part of a user migrating a web page from one device to another.
-* Allow a web application to share some application-specific information between the page opened in the initial device and the page
+Allow a web application to: 
+* Understand that it is being opened as a part of a user migrating a web page from one device to another.
+* Share some application-specific information between the page opened in the initial device and the page
   opened on the new device.
 
 ## Non-goals
