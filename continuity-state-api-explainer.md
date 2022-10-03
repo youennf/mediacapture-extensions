@@ -33,6 +33,11 @@ Allow a web application to:
 * A HTTP header could be used to convey the continuity state information to the server instead of the page.
   The benefits over a readonly attribute are small and this would limit the continuity state to be a valid HTTP header value.
 
+## Feedback Received
+
+* Use structured cloning instead of a DOMString.
+  * This is more web developer friendly, but we might want to have an upper size limit that would be interoperable
+* Integrate this API with navigation API. Handoff could be somehow a new navigation type.
 
 ## Using the continuityState API
 
