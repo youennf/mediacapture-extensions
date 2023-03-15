@@ -35,9 +35,11 @@ Allow a web application to:
 
 ## Feedback Received
 
-* Use structured cloning instead of a DOMString.
-  * This is more web developer friendly, but we might want to have an upper size limit that would be interoperable
-* Integrate this API with navigation API. Handoff could be somehow a new navigation type.
+* Use structured cloning instead of a DOMString (API updated accordingly).
+  * This is more web developer friendly, reuse History.state current implementation memory limit.
+* Consider integrating this API with navigation API, for instance:
+  * Use navigation.currentEntry.getState() 
+  * Introduce navigation.currentEntry.initiator enum value, one value being "continuity".
 
 ## Using the continuityState API
 
@@ -45,8 +47,7 @@ Allow a web application to:
 
 ```js
 partial interface Navigator {
-    readonly attribute DOMString initialContinuityState;
-    attribute DOMString continuityState;
+    attribute any continuityState;
 };
 ```
 
@@ -57,17 +58,17 @@ partial interface Navigator {
 let state = { };
 onusernameFilled = (username) => {
     state.username = username;
-    navigator.continuityState = JSON.stringify(state);
+    navigator.continuityState = state;
 }
 
 oncameraEnabled = (enabled) => {
     state.cameraEnabled = enabled;
-    navigator.continuityState = JSON.stringify(state);
+    navigator.continuityState = state;
 }
 
 onmicrophonEnabled = (enabled) => {
     state.microphoneEnabled = enabled;
-    navigator.continuityState = JSON.stringify(state);
+    navigator.continuityState = state;
 }
 ```
 
@@ -75,9 +76,8 @@ onmicrophonEnabled = (enabled) => {
 let state = { };
 window.onload = async () => {
      // New page is reading the continuity state.
-     if (navigator.initialContinuityState) {
-          state = JSON.parse(navigator.initialContinuityState);
-          initializeFromState();
+     if (navigator.continuityState) {
+          initializeFromState(navigator.continuityState);
           return;
      }
      // Otherwise, ask user for the manual setup.
@@ -92,13 +92,13 @@ window.onload = async () => {
      };
 }
 
-async function initializeFromState()
+async function initializeFromState(initialState)
 {
      // Let's initialize web page according latest user preferences from the old page.
      updateUsername(state.username);
-     if (state.cameraEnabled || state.microphoneEnabled) {
+     if (initialState.cameraEnabled || initialState.microphoneEnabled) {
          try {
-             initializeLocalView(await navigator.mediaDevices.getUserMedia({ audio: state.microphoneEnabled, video: state.cameraEnabled });
+             initializeLocalView(await navigator.mediaDevices.getUserMedia({ audio: initialState.microphoneEnabled, video: initialState.cameraEnabled });
          } catch (e) {
              // update state.
          }
